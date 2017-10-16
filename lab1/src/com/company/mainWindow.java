@@ -31,6 +31,7 @@ public class mainWindow {
         private int t;
 	private int r;
 	private int p;
+private int o;
 	/**
 	 * Launch the application.
 	 */
