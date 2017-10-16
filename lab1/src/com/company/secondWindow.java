@@ -16,6 +16,7 @@ public class secondWindow {
 	private JTextField textField;
 	private JTextField textField_1;
         private int t;
+ private int m;
 	/**
 	 * Launch the application.
 	 */

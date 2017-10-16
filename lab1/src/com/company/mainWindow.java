@@ -29,6 +29,7 @@ public class mainWindow {
 	private JButton button_2;
 	private JButton button_3;
         private int t;
+ private int m;
 	/**
 	 * Launch the application.
 	 */
