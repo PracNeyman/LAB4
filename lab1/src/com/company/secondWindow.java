@@ -18,6 +18,7 @@ public class secondWindow {
         private int t;
 private int r;
 	private int p;
+private int m;
 private int o;
 	/**
 	 * Launch the application.
