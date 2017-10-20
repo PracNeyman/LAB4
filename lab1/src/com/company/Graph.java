@@ -21,7 +21,7 @@ public class Graph {
     int			     t;
     public ArrayList<String> words;
     public int[][]	     edges;
-    Map<String, Integer>     mark   = new HashMap<String, Integer>();
+//    Map<String, Integer>     mark   = new HashMap<String, Integer>();
     private Vector<int[]>    uvtemp = new Vector<int[]>();	     	     	     	     	     	     	     	     	     	     	     	     	     	     	     	     	     	     	     // ���ڼ�¼dijsktra��dist(v)-dist(u)
                                                                      	     	     	     	     	     	     	     	     	     	     	     	     	     	     	     	     	     	     // =
                                                                      	     	     	     	     	     	     	     	     	     	     	     	     	     	     	     	     	     	     // c(u,v)�ı�
@@ -37,8 +37,9 @@ public class Graph {
 	int now = 0;
 	words = new ArrayList<String>();
 	for (String s1 : strings) {
-	    if (!mark.containsKey(s1)) {
-		mark.put(new String(s1), new Integer(now++));
+//	    if (!mark.containsKey(s1)) {
+		if (!words.contains(s1)) {
+//		mark.put(new String(s1), new Integer(now++));
 		words.add(s1);
 	    }
 	}
@@ -53,7 +54,8 @@ public class Graph {
 	int a, b;
 	for (String s2 : strings) {
 	    if (s3 != "") {
-		++(edges[mark.get(s3)][mark.get(s2)]);
+//		++(edges[mark.get(s3)][mark.get(s2)]);
+	    	++(edges[words.indexOf(s3)][words.indexOf(s2)]);
 	    }
 	    s3 = s2;
 	}
@@ -66,7 +68,8 @@ public class Graph {
      */
 
     public boolean isTheWordExisted(String word) {
-	return mark.containsKey(word);
+//	return mark.containsKey(word);
+    	return words.contains(word);
     }
 
     /*
@@ -76,9 +79,11 @@ public class Graph {
      */
 
     String[] queryBridgeWords(String word1, String word2) {
-	if (!mark.containsKey(word1) || !mark.containsKey(word2))
+//	if (!mark.containsKey(word1) || !mark.containsKey(word2))
+    if (!words.contains(word1) || !words.contains(word2))
 	    return null;
-	int mark1 = mark.get(word1), mark2 = mark.get(word2);
+//	int mark1 = mark.get(word1), mark2 = mark.get(word2);
+    int mark1 = words.indexOf(word1), mark2 = words.indexOf(word2);
 	ArrayList<String> result = new ArrayList<String>();
 	int num = 0;
 	for (int i = 0; i < n; ++i) {
@@ -138,7 +143,8 @@ public class Graph {
 
     public void showTheGraphByConsole() {
 	if (n == 0)
-	    System.out.println("��ǰ�ڽӱ�Ϊ�գ�");
+//	    System.out.println("��ǰ�ڽӱ�Ϊ�գ�");
+		;
 	else {
 	    /*
 	     * for (Map.Entry<String,Integer> e:mark.entrySet()) {
@@ -147,7 +153,7 @@ public class Graph {
 	     */
 	    int i = 0;
 	    for (String e : words) {
-		System.out.println((i++) + "�ŵ���:" + e);
+//		System.out.println((i++) + "�ŵ���:" + e);
 	    }
 	    for (int j = 0; j < n; j++) {
 		for (int k = 0; k < n; k++) {
@@ -167,13 +173,16 @@ public class Graph {
     public String[] calcShortestPath(String word1, String word2) {
 	String[] result = new String[n];
 	Vector<String> returnItem = new Vector<String>();
-	if (!mark.containsKey(word1)) {
-	    System.out.println("��ǰͼ�в�����" + word1 + "�����������");
+//	if (!mark.containsKey(word1)) {
+	if (!words.contains(word1)) {
+	    System.out.println("��ǰͼ�в�����" + word1 + "�����������");
 	    return null;
 	}
 	else {
-	    int source = mark.get(word1);
-	    int aim = mark.get(word2);
+//	    int source = mark.get(word1);
+//	    int aim = mark.get(word2);
+		int source = words.indexOf(word1);
+		int aim = words.indexOf(word2);
 	    int[] pathlength = new int[n];
 	    int[] path = new int[n];
 	    int[][] edgesTemp = new int[n][n];
@@ -205,7 +214,7 @@ public class Graph {
 		int temp = priorityQueue.peek();
 		for (int i = 0; i < n; i++)
 		    relex(temp, i, edgesTemp, pathlength, path, priorityQueue);
-		priorityQueue.poll();// �����������poll���������Ϊ�������peek������ȶ����������Ǹ���pathlength��ֵ�ģ��������ɳ�ǰ����������ʱ�������ģ�pathlength��ֵ��û����
+		priorityQueue.poll();
 	    }
 	    for (int i = 0; i < n; i++) {
 		if (path[i] == -1 || i == source)
@@ -223,14 +232,14 @@ public class Graph {
 		    }
 		}
 	    }
-	    returnItem.add(result[aim]);// ����һ�����·
-	    String[] spiltItem = result[aim].split("\\s+");// �������·�����ʷֽ�
-	    HashMap<String, Integer> hashMap = new HashMap<String, Integer>();// ������ϣ��
+	    returnItem.add(result[aim]);
+	    String[] spiltItem = result[aim].split("\\s+");
+	    HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
 	    for (int i = 0; i < spiltItem.length; i++) {
 		hashMap.put(spiltItem[i], i);
 	    }
 	    for (int[] e : uvtemp) {
-		if (hashMap.containsKey(words.get(e[1]))) {// �жϸã�v���Ƿ������·���ϣ����ǣ��򽫵�ǰ���·����v->aim�ν���source��u�����·���ٽ��ϱ�(u,v)����һ���µ����·
+		if (hashMap.containsKey(words.get(e[1]))) {
 		    System.out.println(words.get(e[0]) + "->" + words.get(e[1]));
 		    String newPath = result[e[0]];
 		    int flag = 0;
@@ -248,7 +257,7 @@ public class Graph {
 		results[i] = new String(returnItem.get(i));
 	    lengths = new int[1];
 	    lengths[0] = pathlength[aim];
-	    uvtemp.clear();// ������뽫ȫ�ֱ�����գ������´ε���ʱ�����ʹ���ϴ�������(u,v)
+	    uvtemp.clear();
 	    return results;
 	}
     }
@@ -261,10 +270,12 @@ public class Graph {
 
     public String[] calcShortestPathOfAll(String word1) {
 	String[] result = new String[n];
-	if (!mark.containsKey(word1))
-	    System.out.println("��ǰͼ�в�����" + word1 + "�����������");
+//	if (!mark.containsKey(word1))
+	if (!words.contains(word1))
+	    System.out.println("��ǰͼ�в�����" + word1 + "�����������");
 	else {
-	    int source = mark.get(word1);
+//	    int source = mark.get(word1);
+		int source = words.indexOf(word1);
 	    int[] pathlength = new int[n];
 	    int[] path = new int[n];
 	    int[][] edgesTemp = new int[n][n];
@@ -296,7 +307,7 @@ public class Graph {
 		int temp = priorityQueue.peek();
 		for (int i = 0; i < n; i++)
 		    relex(temp, i, edgesTemp, pathlength, path, priorityQueue);
-		priorityQueue.poll();// �����������poll���������Ϊ�������peek������ȶ����������Ǹ���pathlength��ֵ�ģ��������ɳ�ǰ����������ʱ�������ģ�pathlength��ֵ��û����
+		priorityQueue.poll();
 	    }
 	    for (int i = 0; i < n; i++) {
 		if (path[i] == -1 || i == source)
@@ -329,10 +340,10 @@ public class Graph {
 
     public String randomWalk() {
 	if (n == 0)
-	    return null;// ��Ϊ�գ�����kong
+	    return null;
 	int rand = (int) (Math.random() * n);
 	boolean[][] isEdgeVisited = new boolean[n][n];
-	for (int i = 0; i < n; i++)// �����߷��ʾ���ͬʱ��ʼ�����ڽӾ�����Ϊ0��Ԫ�ر�Ϊfalse,ͬʱ�ں������У����߱����ʣ�����Ӧ��Ϊfalse
+	for (int i = 0; i < n; i++)
 	    for (int j = 0; j < n; j++)
 		if (edges[i][j] == 0)
 		    isEdgeVisited[i][j] = false;
@@ -347,15 +358,15 @@ public class Graph {
      * @return:
      */
 
-    private String DFSByEdge(int sourceNode, boolean[][] isEdgeVisited) {// ��Ϊ����������У��������ֻ�����һ�����ѣ���������жϾ�������Ϊ�����ǿ��Ե�
-	Vector<Integer> chooseEnable = new Vector<Integer>();// ��ѡ����
+    private String DFSByEdge(int sourceNode, boolean[][] isEdgeVisited) {
+	Vector<Integer> chooseEnable = new Vector<Integer>();
 	for (int i = 0; i < n; i++)
 	    if (isEdgeVisited[sourceNode][i] == true)
 		chooseEnable.add(i);
 	if (chooseEnable.isEmpty())
-	    return "";// ���ýڵ㲻���г��ߣ���ʵ��ÿ�η���һ���߽�����жϾ�����ɾȥ������������ݹ����������һ����
+	    return "";
 	int length = chooseEnable.size();
-	int aimNode = (int) (Math.random() * length);// ���ѡ����һ�����ʵĶ���
+	int aimNode = (int) (Math.random() * length);
 	isEdgeVisited[sourceNode][chooseEnable.get(aimNode)] = false;
 	return words.get(chooseEnable.get(aimNode)) + " " + DFSByEdge(chooseEnable.get(aimNode), isEdgeVisited);
     }
